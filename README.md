@@ -6,7 +6,7 @@ See the [JavaScript language guide for CircleCI here](https://circleci.com/docs/
 
 ## Quickstart
 
-```
+```bash
   npm install -g mern-cli
   mern init your_new_app
   cd your_new_app
@@ -102,14 +102,18 @@ If there's an error in matching we return 500 status code, if no matches are fou
 Client directory contains all the shared components, routes, modules.
 
 #### components
+
 This folder contains all the common components which are used throughout the project.
 
 #### index.js
+
 Index.js simply does client side rendering using the data provided from `window.__INITIAL_STATE__`.
 
 #### modules
+
 Modules are the way of organising different domain-specific modules in the project. A typical module contains the following
-```
+
+```bash
 | - Post
   | - __tests__ // all the tests for this module goes here
       | - components // Sub components of this module
@@ -141,31 +145,38 @@ Modules are the way of organising different domain-specific modules in the proje
 ## Misc
 
 ### Importing Assets
+
 Assets can be kept where you want and can be imported into your js files or css files. Those fill be served by webpack in development mode and copied to the dist folder during production.
 
 ### ES6 support
+
 We use babel to transpile code in both server and client with `stage-0` plugin. So, you can use both ES6 and experimental ES7 features.
 
 ### Docker
+
 There are docker configurations for both development and production.
 
 To run docker for development,
-```
+
+```bash
 docker-compose -f docker-compose-development.yml build
 docker-compose -f docker-compose-development.yml up
 ```
 
 To run docker for production,
-```
+
+```bash
 docker-compose build
 docker-compose up
 ```
 
 ### Make your MERN
+
 In this version, we enabled the `mern-cli` to clone not only this project but also the variants of `mern-starter` like one project with MaterialUI or JWT auth. To make your version of MERN, follow these steps
 
 1. Clone this project
-    ```
+
+    ```bash
     git clone https://github.com/Hashnode/mern-starter
     ```
 
@@ -174,7 +185,8 @@ In this version, we enabled the `mern-cli` to clone not only this project but al
 3. In this version, we also added code generators. Blueprints for those generators are located at `config/blueprints`, and config is located at `mern.json`. Make sure to edit them if necessary after your made modifications in the previous step. There is a section below which explains how to modify generators.
 
 4. Next clone `mern-cli` project
-    ```
+
+    ```bash
     git clone https://github.com/Hashnode/mern-cli
     ```
 
@@ -183,8 +195,10 @@ In this version, we enabled the `mern-cli` to clone not only this project but al
 ### Modifying Generators
 
 #### mern.json
+
 It contains a blueprints array. Each object in it is the config for a generator. A blueprint config contains the name, description, usage, and files array. An example blueprint config
-```
+
+```bash
 {
   "name": "dumb-s",
   "description": "Generates a dumb react component in shared components",
@@ -211,7 +225,8 @@ Also, `target-path` supports [ejs](https://github.com/mde/ejs) and the following
 1. `name` - `<component-name>` input from user
 
 2. `parent` - in particular special cases where you need to generate files inside an already existing folder, you can obtain this parent variable from the user. A config using that will look like,
-    ```
+
+    ```bash
     {
       "name": "dumb-m",
       "description": "Generates a dumb react component in a module directory",
@@ -224,23 +239,29 @@ Also, `target-path` supports [ejs](https://github.com/mde/ejs) and the following
         }
       ]
     }
+    
     ```
+  
     Here, notice the usage. In `<module-name>/<component-name>`, `<module-name>` will be passed as `parent` and `<component-name>` will be passed as `<name>`.
 
 3. `helpers` - an helper object is passed which include common utility functions. For now, it contains `capitalize`. If you want to add more, send a PR to [mern-cli](https://github.com/Hashnode/mern-cli).
 
 #### Blueprint files
+
 Blueprints are basically [ejs](https://github.com/mde/ejs) templates which are rendered with the same three variables(`name`, optional `parent` and `helpers` object) as above.
 
 ### Caveats
 
 #### FOUC (Flash of Unstyled Content)
+
 To make the hot reloading of CSS work, we are not extracting CSS in development. Ideally, during server rendering, we will be extracting CSS, and we will get a .css file, and we can use it in the html template. That's what we are doing in production.
 
 In development, after all scripts get loaded, react loads the CSS as BLOBs. That's why there is a second of FOUC in development.
 
 #### Client and Server Markup Mismatch
+
 This warning is visible only on development and totally harmless. This occurs to hash difference in `react-router`. To solve it, react router docs asks you to use `match` function. If we use `match`, `react-hot-reloader` stops working.
 
 ## License
+
 MERN is released under the [MIT License](http://www.opensource.org/licenses/MIT).
